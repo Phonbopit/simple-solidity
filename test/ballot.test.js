@@ -35,10 +35,6 @@ describe('Ballot', function () {
       const chairperson = accounts[0];
       const voters = accounts.slice(1, 11); // only 10 persons
 
-      console.log('charperson', chairperson.address);
-
-      voters.map((voter, idx) => console.log(`voter ${idx} : `, voter.address));
-
       const Ballot = await ethers.getContractFactory('NewBallot');
       const ballot = await Ballot.deploy(proposals);
       await ballot.deployed();

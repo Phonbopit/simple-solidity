@@ -1,5 +1,5 @@
 const main = async () => {
-  const HelloWorld = await hre.ethers.getContractFactory("HelloWorld");
+  const HelloWorld = await hre.ethers.getContractFactory('HelloWorld');
   const helloWorld = await HelloWorld.deploy(1); // set default to 1
   await helloWorld.deployed();
 

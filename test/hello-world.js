@@ -1,9 +1,9 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { expect } = require('chai');
+const { ethers } = require('hardhat');
 
-describe("HelloWorld", function () {
+describe('HelloWorld', function () {
   it(`should return new number once it's changed`, async () => {
-    const HelloWorld = await ethers.getContractFactory("HelloWorld");
+    const HelloWorld = await ethers.getContractFactory('HelloWorld');
     const helloWorld = await HelloWorld.deploy(1); // set default to 1
     await helloWorld.deployed();
 

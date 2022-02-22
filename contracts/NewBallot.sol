@@ -2,6 +2,15 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
+/**
+ * @dev Implement custom error for already voted.
+ * @param voter - address of given voter.
+ * @param voted - if true that person already voted.
+ */
+error AlreadyVoted(address voter, bool voted);
+
+error InvalidWeight(address voter, uint weight);
+
 /** 
  * @title Ballot
  * @dev Implements voting process along with vote delegation
@@ -49,20 +58,36 @@ contract NewBallot {
     
     /** 
      * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.
-     * @param voter address of voter
+     * @param _voters address of voters
      */
-    function giveRightToVote(address voter) public {
+    function giveRightToVote(address[] memory _voters) public {
+        // can change to modifier if we use this multiple time. 
         require(
             msg.sender == chairperson,
             "Only chairperson can give right to vote."
         );
-        require(
-            !voters[voter].voted,
-            "The voter already voted."
-        );
-        // uncomment this line. It's no need to check because it the end we always set weigh = 1;
-        // require(voters[voter].weight == 0);
-        voters[voter].weight = 1;
+
+        uint voteLength = _voters.length;
+
+        for (uint i = 0; i < voteLength; i++) {
+            address voterAddress = _voters[i];
+
+            Voter storage voter = voters[voterAddress];
+
+            if (voter.voted) {
+                revert AlreadyVoted({
+                    voter: voterAddress,
+                    voted: voter.voted
+                });
+            }
+            if (voter.weight != 0) {
+                revert InvalidWeight({
+                    voter: voterAddress,
+                    weight: voter.weight
+                });
+            }
+            voters[voterAddress].weight = 1;
+        }
     }
 
     /**

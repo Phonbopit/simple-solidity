@@ -9,6 +9,11 @@ pragma solidity >=0.7.0 <0.9.0;
  */
 error AlreadyVoted(address voter, bool voted);
 
+/**
+ * @dev Custom error for invalid weight.
+ * @param voter - address of voter.
+ * param weight - weight that invalid.
+ */
 error InvalidWeight(address voter, uint weight);
 
 /** 
